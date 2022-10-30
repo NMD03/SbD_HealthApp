@@ -68,6 +68,15 @@ class DoctorFile(models.Model):
     def __str__(self):
         return self.file.name
 
+class DoctorLicense(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    license = models.FileField(upload_to='licenses/')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.doctor.user.username + ' - ' + self.title
+
 
 # class FileShareRequestResponse(models.Model):
 #     file_share_request = models.ForeignKey(FileShareRequest, on_delete=models.CASCADE)

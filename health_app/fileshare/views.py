@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 
 from .decorators import *
-from .forms import UploadFileForm
+from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
 
@@ -39,7 +39,7 @@ def delete_file(request, pk):
     if request.method == 'POST':
         file.delete()
         return redirect('myfiles')
-    context = {'file': file, 'page': page}
+    context = {'item': file, 'page': page}
     return render(request, 'fileshare/delete.html', context)
 
 @login_required(login_url='login')
@@ -66,3 +66,34 @@ def add_doctor(request, pk):
 
         return redirect('myfiles')
     return render(request, 'fileshare/add_doctor.html', {'file': file})
+
+def profile(request):
+    user = request.user
+    try:
+        license = user.doctor.doctorlicense_set.all()
+    except:
+        license = None
+    form = UploadLicenseForm()
+    if request.method == 'POST':
+        form = UploadLicenseForm(request.POST, request.FILES)
+        if form.is_valid():
+            if request.user.doctor == None:
+                Doctor.objects.create(
+                    user=user,
+                )
+            instance = DoctorLicense(doctor=user.doctor, license=request.FILES['file'], title=request.POST['title'])
+            instance.save()
+            return redirect('profile')
+    context = {"user": user, "license": license, "form": form}
+    return render(request, 'fileshare/profile.html', context)
+
+def delete_license(request, pk):
+    license = DoctorLicense.objects.get(id=pk)
+    page = 'delete_license'
+    if request.method == 'POST':
+        license.delete()
+        if len(request.user.doctor.doctorlicense_set.all()) < 1:
+            request.user.doctor.delete()
+        return redirect('profile')
+    context = {'item': license, 'page': page}
+    return render(request, 'fileshare/delete.html', context)

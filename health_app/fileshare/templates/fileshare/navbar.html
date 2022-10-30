@@ -51,7 +51,9 @@
         </form>
       </div>
       {% if user.is_authenticated %}
-      <img class="user-logo" src="{% static 'fileshare/img/user.png' %}" alt="User">
+      <a class="navbar-brand" href="{% url 'profile' %}">
+        <img class="user-logo" src="{% static 'fileshare/img/user.png' %}" alt="User">
+      </a>
       <span class="profile-msg">Hello, {{ request.user }}</span>
       {% endif %}
     </div>
