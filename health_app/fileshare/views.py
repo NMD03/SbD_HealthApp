@@ -4,6 +4,7 @@ from .decorators import *
 from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 
 # Create your views here.
@@ -48,15 +49,17 @@ def update_file(request, pk):
     file = File.objects.get(id=pk)
     form = UploadFileForm()
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES, instance=file)
+        form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            instance = File(file=request.FILES['file'], patient=request.user.patient, name=request.POST['title'], description=request.POST['description'])
+            instance.save()
             return redirect('myfiles')
     context = {'form': form}
     return render(request, 'fileshare/create_file.html', context)
 
 def download_file(request, pk):
     file = File.objects.get(id=pk)
+    ## todo: download file
     return render(request, 'fileshare/download.html', {'file': file})
 
 def add_doctor(request, pk):
@@ -77,10 +80,14 @@ def profile(request):
     if request.method == 'POST':
         form = UploadLicenseForm(request.POST, request.FILES)
         if form.is_valid():
-            if request.user.doctor == None:
+            try:
+                doctor = user.doctor
+            except:
                 Doctor.objects.create(
                     user=user,
                 )
+                group = Group.objects.get(name='doctor')
+                user.groups.add(group)
             instance = DoctorLicense(doctor=user.doctor, license=request.FILES['file'], title=request.POST['title'])
             instance.save()
             return redirect('profile')
@@ -90,10 +97,29 @@ def profile(request):
 def delete_license(request, pk):
     license = DoctorLicense.objects.get(id=pk)
     page = 'delete_license'
+    user = request.user
     if request.method == 'POST':
         license.delete()
-        if len(request.user.doctor.doctorlicense_set.all()) < 1:
-            request.user.doctor.delete()
+        if len(user.doctor.doctorlicense_set.all()) < 1:
+            user.doctor.delete()
+            group = Group.objects.get(name='doctor')
+            user.groups.remove(group)
         return redirect('profile')
     context = {'item': license, 'page': page}
     return render(request, 'fileshare/delete.html', context)
+
+def all_doctors(request):
+    doctors = Doctor.objects.all()
+    # für alle doctors die user finden
+
+    print(doctors)
+    context = {"doctors": doctors}
+    return render(request, 'fileshare/all_doctors.html', context)
+
+def request_doctor(request, pk):
+    doctor = Doctor.objects.get(id=pk)
+    if request.method == 'POST':
+        ### send request to doctor
+
+        return redirect('all_doctors')
+    return render(request, 'fileshare/request_doctor.html', {'doctor': doctor})

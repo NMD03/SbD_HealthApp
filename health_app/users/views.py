@@ -36,6 +36,8 @@ def logout_user(request):
 def register(request):
     if request.method == 'POST':
         username = request.POST['username']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
@@ -46,7 +48,7 @@ def register(request):
             if len(password) < 8:
                 messages.info(request, 'Password must be at least 8 characters')
                 return redirect('register')
-            user = User.objects.create_user(username=username, password=password, email=email)
+            user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
             user.save()
             group = Group.objects.get(name='patient')
             user.groups.add(group)
