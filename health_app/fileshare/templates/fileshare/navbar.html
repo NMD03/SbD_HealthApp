@@ -18,22 +18,27 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">Logout</a>
             </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'myfiles' %}">My Files</a>
-            </li>
   
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Statistcs
+                Files
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Organizer</a></li>
-                <li><a class="dropdown-item" href="#">Matches</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Player</a></li>
+                <li><a class="dropdown-item" href="{% url 'myfiles' %}">My Files</a></li>
+                <li><a class="dropdown-item" href="#">Shared Files</a></li>
               </ul>
             </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Doctors
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'all_doctors' %}">All Doctors</a></li>
+                <li><a class="dropdown-item" href="#">My Doctors</a></li>
+              </ul>
+            </li>
+
   
           {% else %}
             <li class="nav-item">
@@ -45,13 +50,11 @@
           {% endif %}
 
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
       {% if user.is_authenticated %}
-      <img class="user-logo" src="{% static 'fileshare/img/user.png' %}" alt="User">
+      <a class="navbar-brand" href="{% url 'profile' %}">
+        <img class="user-logo" src="{% static 'fileshare/img/user.png' %}" alt="User">
+      </a>
       <span class="profile-msg">Hello, {{ request.user }}</span>
       {% endif %}
     </div>

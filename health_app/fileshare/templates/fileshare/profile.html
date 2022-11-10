@@ -1,0 +1,64 @@
+{% extends "fileshare/base.html" %}
+{% load static %}
+{% block content %}    
+    <div class="container rounded bg-white mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="300px" src="{% static 'fileshare/img/user.png' %}"><span class="font-weight-bold">{{ user.username }}</span><span class="text-black-50">{{ user.email }}</span><span> </span></div>
+            </div>
+            <div class="col-md-5 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profile Settings</h4>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">First Name</label><input type="text" class="form-control" placeholder="{{ user.first_name }}" value=""></div>
+                        <div class="col-md-6"><label class="labels">Last Name</label><input type="text" class="form-control" value="" placeholder="{{ user.last_name }}"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <!-- <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
+                        <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
+                        <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                        <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                        <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                        <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div> -->
+                        <div class="col-md-12"><label class="labels">Email Adress</label><input type="text" class="form-control" placeholder="{{ user.email }}" value=""></div>
+                        <!-- <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div> -->
+                    </div>
+                    <!-- <div class="row mt-3">
+                        <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
+                        <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
+                    </div> -->
+                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center experience"><span>Edit Doctor License</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;License</span></div><br>
+                    {% for i in license %}
+                    <div class="card"  id="">
+                        <div class="card-body">
+                        <h5 class="card-title">{{i.title}}</h5>
+                        <p class="card-text">File: {{i.license}}</p>
+                        <!-- <a href="{% url 'update_file' i.id %}" class="btn btn-primary">Change</a> -->
+                        <a href="{% url 'delete_license' i.id %}" class="btn btn-primary">Delete</a>
+                        <!-- <a href="{% url 'download_file' i.id %}" class="btn btn-primary">Download</a>
+                        <a href="{% url 'add_doctor' i.id %}" class="btn btn-primary">Add Doctor</a> -->
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="shadow p-4 mb-5 bg-body rounded">
+                        <h4 class="text-center">Add License</h4>
+                        <form action="" method="POST" enctype=multipart/form-data>
+                            {% csrf_token %}
+                            {{form}}
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}
