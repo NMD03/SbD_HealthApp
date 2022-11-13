@@ -62,14 +62,6 @@ def download_file(request, pk):
     ## todo: download file
     return render(request, 'fileshare/download.html', {'file': file})
 
-def add_doctor(request, pk):
-    file = File.objects.get(id=pk)
-    if request.method == 'POST':
-        ### add doctor to file
-
-        return redirect('myfiles')
-    return render(request, 'fileshare/add_doctor.html', {'file': file})
-
 def profile(request):
     user = request.user
     try:
@@ -110,16 +102,49 @@ def delete_license(request, pk):
 
 def all_doctors(request):
     doctors = Doctor.objects.all()
-    # für alle doctors die user finden
-
     print(doctors)
     context = {"doctors": doctors}
     return render(request, 'fileshare/all_doctors.html', context)
 
 def request_doctor(request, pk):
     doctor = Doctor.objects.get(id=pk)
+    form = RequestDoctorForm()
     if request.method == 'POST':
+        form = RequestDoctorForm(request.POST)
         ### send request to doctor
+        if form.is_valid():
+            instance = DoctorPatient(doctor=doctor, patient=request.user.patient)
+            instance.save()
+            return redirect('all_doctors')
+    context = {"form": form, "doctor": doctor}
+    return render(request, 'fileshare/request_doctor.html', context)
 
-        return redirect('all_doctors')
-    return render(request, 'fileshare/request_doctor.html', {'doctor': doctor})
+def my_doctors(request):
+    doctor_patient = request.user.patient.doctorpatient_set.all()
+    doctors = []
+    for doctor in doctor_patient:
+        doctors.append(doctor.doctor)
+    context = {"doctors": doctors}
+    return render(request, 'fileshare/my_doctors.html', context)
+
+def shared_files(request):
+    files = File.objects.filter(patient=request.user.patient, shared=True)
+    print(files)
+    context = {"files": files}
+    return render(request, 'fileshare/shared_files.html', context)
+
+def add_doctor(request, pk):
+    file = File.objects.get(id=pk)
+    form = AddDoctorForm(request=request)
+    if request.method == 'POST':
+        ### add doctor to file
+        form = AddDoctorForm(request.POST, request=request)
+        if form.is_valid():
+            instance = DoctorFile(file=file, doctor=Doctor.objects.get(id=form.cleaned_data['doctor']))
+            instance.save()
+            file.shared = True
+            file.save()
+            return redirect('shared_files')
+        return redirect('myfiles')
+    context = {"form": form, "file": file}
+    return render(request, 'fileshare/add_doctor.html', context)
