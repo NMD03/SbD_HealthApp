@@ -13,15 +13,14 @@
         {% load static %}
     </head>
     <body>
-
         <div class="shadow p-4 mb-5 bg-body rounded">
+          <h5 class="card-title">{{doctor.user.username}}</h5>
             <form action="" method="POST" enctype=multipart/form-data>
                 {% csrf_token %}
                 {{form}}
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Send Request</button>
             </form>
         </div>
-
     </body>
 </html>
 {% endblock %}

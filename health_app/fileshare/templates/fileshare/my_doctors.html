@@ -18,8 +18,8 @@
     <div class="card"  id="">
         <div class="card-body">
           <h5 class="card-title">{{i.user.username}}</h5>
-          <p class="card-text">{{i.user.email}}</p>
-          <a href="{% url 'request_doctor' i.id %}" class="btn btn-primary">Request</a>
+          <p class="card-text">E-Mail: {{i.user.email}}</p>
+          <a href="{% url 'request_doctor' i.id %}" class="btn btn-primary">Button</a>
         </div>
     </div>
     {% endfor %}
