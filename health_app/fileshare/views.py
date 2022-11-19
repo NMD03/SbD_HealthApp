@@ -116,14 +116,6 @@ def all_doctors(request):
     context = {"doctors": doctors}
     return render(request, 'fileshare/all_doctors.html', context)
 
-def my_doctors(request):
-    my_doctors = DoctorPatient.objects.all()
-    # für alle doctors die user finden
-    
-    print(my_doctors)
-    context = {"doctors": my_doctors}
-    return render(request, 'fileshare/my_doctors.html', context)
-
 def request_doctor(request, pk):
     doctor = Doctor.objects.get(id=pk)
     if request.method == 'POST':
