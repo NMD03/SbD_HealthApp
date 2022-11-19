@@ -14,4 +14,6 @@ urlpatterns = [
     path('delete_license/<str:pk>/', views.delete_license, name='delete_license'),
     path('all_doctors/', views.all_doctors, name='all_doctors'),
     path('request_doctor/<str:pk>/', views.request_doctor, name='request_doctor'),
+    path('my_doctors/', views.my_doctors, name='my_doctors'),
+    path('shared_files/', views.shared_files, name='shared_files'),
 ]
