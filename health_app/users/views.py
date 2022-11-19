@@ -41,9 +41,24 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
-        if User.objects.filter(username=username).exists():
+        if username == "":
+            messages.info(request, 'Please enter a Username')
+            return redirect('register')
+        elif User.objects.filter(username=username).exists():
                 messages.info(request, 'Username already exists')
                 return redirect('register')
+        if first_name == "":
+            messages.info(request, 'Please enter your First Name')
+            return redirect('register')
+        if last_name == "":
+            messages.info(request, 'Please enter your Last Name')
+            return redirect('register')
+        if email == "":
+            messages.info(request, 'Please enter your E-Mail-adress')
+            return redirect('register')
+        elif User.objects.filter(email = email ).exists():
+            messages.info(request, 'An account for this E-Mail adress already exists')
+            return redirect('register')
         if password == password2:
             if len(password) < 8:
                 messages.info(request, 'Password must be at least 8 characters')
@@ -60,6 +75,8 @@ def register(request):
         else:
             messages.info(request, 'Passwords do not match')
             return render(request, 'users/register.html')
+            
+        
     else:
         return render(request, 'users/register.html')
 
