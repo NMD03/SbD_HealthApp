@@ -102,7 +102,6 @@ def delete_license(request, pk):
 
 def all_doctors(request):
     doctors = Doctor.objects.all()
-    print(doctors)
     context = {"doctors": doctors}
     return render(request, 'fileshare/all_doctors.html', context)
 
