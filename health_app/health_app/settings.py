@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Read from .env
+env = environ.Env()
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -39,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'fileshare',
     'users',
+    "verify_email.apps.VerifyEmailConfig",
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -178,3 +184,17 @@ LOGGING = {
         },
     },
 }
+
+# E-Mail Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+# Custom Email Settings
+#RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+
+LOGIN_URL = 'login'
