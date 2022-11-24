@@ -1,5 +1,5 @@
 # SbD_HealthApp <!-- omit in toc -->
-Repo für die Laboraufgabe in Security by Design
+Repository for the SbD Health App
 
 ## Table of Contents <!-- omit in toc -->
 - [Starting App in Development Mode](#starting-app-in-development-mode)
@@ -27,7 +27,7 @@ Before starting the app in development mode, make sure you have installed Docker
 Create a file called `.env.dev` in the root directory of the project. The file should contain the following environment variables:
 
 ```bash
-SECRET_KEY=your_secret_key
+SECRET_KEY= # your_secret_key
 DEBUG=True
 ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
 SQL_ENGINE=django.db.backends.postgresql
