@@ -130,3 +130,5 @@ dmypy.json
 
 # Secrets
 .env.dev
+.env.prod
+.env.prod.db
