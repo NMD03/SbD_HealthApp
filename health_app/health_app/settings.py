@@ -25,12 +25,12 @@ environ.Env.read_env()
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-(6tzl8g0arz7bgh3vmj5*rkb==*-2f7tip2_rim+_c!_=^6lgp'
+#  SECRET_KEY = 'django-insecure-(6tzl8g0arz7bgh3vmj5*rkb==*-2f7tip2_rim+_c!_=^6lgp'
 SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+#  DEBUG = True
 DEBUG = int(os.environ.get("DEBUG", default=0))
-#ALLOWED_HOSTS = []
+#  ALLOWED_HOSTS = []
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
@@ -135,7 +135,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+#  STATIC_URL = 'static/'
+
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -206,7 +209,10 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 # Custom Email Settings
-#RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
+#  RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
 LOGIN_URL = 'login'
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "mediafiles"
