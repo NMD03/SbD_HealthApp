@@ -35,38 +35,6 @@ def logout_user(request):
     messages.success(request, 'You have been logged out')
     return redirect('login')
 
-# @unauthenticated_user
-# def register(request):
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         first_name = request.POST['first_name']
-#         last_name = request.POST['last_name']
-#         email = request.POST['email']
-#         password = request.POST['password']
-#         password2 = request.POST['password2']
-#         if User.objects.filter(username=username).exists():
-#                 messages.info(request, 'Username already exists')
-#                 return redirect('register')
-#         if password == password2:
-#             if len(password) < 8:
-#                 messages.info(request, 'Password must be at least 8 characters')
-#                 return redirect('register')
-#             inactive_user = send_verification_email(request, form)
-#             user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-#             user.save()
-#             group = Group.objects.get(name='patient')
-#             user.groups.add(group)
-#             Patient.objects.create(
-#                 user=user
-#             )
-#             messages.success(request, f'Account created for {username}!')
-#             return redirect('login')
-#         else:
-#             messages.info(request, 'Passwords do not match')
-#             return render(request, 'users/register.html')
-#     else:
-#         return render(request, 'users/register.html')
-
 @unauthenticated_user
 def register(request):
     form = RegisterForm()

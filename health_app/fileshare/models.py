@@ -79,19 +79,3 @@ class DoctorLicense(models.Model):
         return self.doctor.user.username + ' - ' + self.title
 
 
-# class FileShareRequestResponse(models.Model):
-#     file_share_request = models.ForeignKey(FileShareRequest, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     response = models.BooleanField()
-#     created = models.DateTimeField(auto_now_add=True)
-#     updated = models.DateTimeField(auto_now=True)
-#     def __str__(self):
-#         return self.file_share_request.file.name
-
-# class DoctorPatientFile(models.Model):
-#     doctor_patient = models.ForeignKey(DoctorPatient, on_delete=models.CASCADE)
-#     file = models.ForeignKey(File, on_delete=models.CASCADE)
-#     created = models.DateTimeField(auto_now_add=True)
-#     updated = models.DateTimeField(auto_now=True)
-#     def __str__(self):
-#         return self.doctor_patient.doctor.user.username + ' - ' + self.doctor_patient.patient.user.username + ' - ' + self.file.name
