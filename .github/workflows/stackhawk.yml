@@ -15,11 +15,11 @@ jobs:
     name: StackHawk DAST
     runs-on: ubuntu-latest
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
       - name: 'Create .env.dev file'
         run: |
           echo "${{ secrets.ENV_DEV_FILE }}" > .env.dev
-      - name: Clone repo
-        uses: actions/checkout@v2
       - name: Run the Vuln Django Containers
         run: docker-compose up -d
       - name: Run HawkScan
