@@ -1,9 +1,9 @@
 # -- stackhawk configuration for SbD_HealthApp --
 app:
   # -- An applicationId obtained from the StackHawk platform. --
-  applicationId: eef0c22b-477d-48b2-9b1f-b6dfe7257777 # (required)
+  applicationId: 656f9f7f-6c70-4f89-9e12-440a923404a7 # (required)
   # -- The environment for the applicationId defined in the StackHawk platform. --
-  env: Development # (required)
+  env: Production # (required)
   # -- The url of your application to scan --
   host: http://localhost:8000 # (required)
 
