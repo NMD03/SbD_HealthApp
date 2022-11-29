@@ -1,22 +1,30 @@
 from django import forms
+from django.forms import ModelForm
 from .models import *
 
-class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
-    description = forms.CharField(max_length=300)
-    file = forms.FileField()
+
+class FileForm(ModelForm):
+
+    description = forms.CharField(max_length=300, required=False)
+    symptoms = forms.CharField(max_length=300, required=False)
+    diagnosis = forms.CharField(max_length=300, required=False)
+    medication = forms.CharField(max_length=300, required=False)
+    comments = forms.CharField(max_length=300, required=False)
+
+    class Meta:
+        model = File
+        fields = ('name', 'description', 'symptoms', 'diagnosis', 'medication', 'comments')
+
 
 class UploadLicenseForm(forms.Form):
     title = forms.CharField(max_length=50)
     file = forms.FileField()
 
+
 DOCTOR_CHOICES = []
-# doctors = Doctor.objects.all()
-# for doctor in doctors:
-#     DOCTOR_CHOICES.append((doctor.id, doctor.user.first_name + ' ' + doctor.user.last_name + ' email: ' + doctor.user.email))
 class AddDoctorForm(forms.Form):
-    #doctor = forms.CharField(label="Which Doctor want you to have acces to this file?", widget=forms.Select(choices))
     doctor = forms.ChoiceField()
+
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
         super(AddDoctorForm, self).__init__(*args, **kwargs)
@@ -30,6 +38,7 @@ class AddDoctorForm(forms.Form):
         for doctor in doctors:
             DOCTOR_CHOICES.append((doctor.id, doctor.user.first_name + ' ' + doctor.user.last_name + ' email: ' + doctor.user.email))
         return DOCTOR_CHOICES
-    
+
+
 class RequestDoctorForm(forms.Form):
     message = forms.CharField(max_length=300)

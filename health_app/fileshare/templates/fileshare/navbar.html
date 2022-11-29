@@ -2,6 +2,7 @@
   
 </style>
 {% load static %}
+{% load filter %}
 <link rel="stylesheet" href="{% static 'fileshare/navbar.css' %}">
 <nav class="navbar navbar-expand-lg navbar-dar.cssk bg-dark">
     <div class="container-fluid">
@@ -38,8 +39,19 @@
                 <li><a class="dropdown-item" href="{% url 'my_doctors' %}">My Doctors</a></li>
               </ul>
             </li>
+            
+            {% if user|has_group:"doctor" %}
+              <li class="nav-item">
+                <a class="nav-link"  href="{% url 'login' %}">Patient Data</a>
+              </li>
+            {% endif %}
+            
+            {% if user.is_superuser %}
+              <li class="nav-item">
+                <a class="nav-link"  href="{% url 'login' %}">Doctor Requests</a>
+              </li>
+            {% endif %}
 
-  
           {% else %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'login' %}">Login</a>

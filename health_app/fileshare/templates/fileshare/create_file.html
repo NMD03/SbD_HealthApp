@@ -1,5 +1,6 @@
 {% extends 'fileshare/base.html' %}
 {% block content %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -17,7 +18,7 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <form action="" method="POST" enctype=multipart/form-data>
                 {% csrf_token %}
-                {{form}}
+                {{ form|crispy }}
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
