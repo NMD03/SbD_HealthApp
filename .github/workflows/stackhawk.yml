@@ -1,0 +1,26 @@
+name: "StackHawk"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ main ]
+  schedule:
+    - cron: '28 20 * * 0'
+  workflow_dispatch:
+ 
+ jobs:
+   hawkscan:
+    name: StackHawk DAST
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+      - name: Run the Vuln Django Containers
+        run: docker-compose up -d
+      - name: Run HawkScan
+        uses: stackhawk/hawkscan-action@v1.2.1
+        with:
+          apiKey: ${{ secrets.HAWK_API_KEY }}
+          configurationFiles: stackhawk.yml
