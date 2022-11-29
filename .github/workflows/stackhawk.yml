@@ -20,8 +20,12 @@ jobs:
       - name: 'Create .env.dev file'
         run: |
           echo "${{ secrets.ENV_DEV_FILE }}" > .env.dev
+      - name: 'Create .env.prod and .env.prod.db files'
+        run: |
+          echo "${{ secrets.ENV_PROD_FILE }}" > .env.prod
+          echo "${{ secrets.ENV_PROD_DB_FILE }}" > .env.prod.db
       - name: Run the Vuln Django Containers
-        run: docker-compose up -d
+        run: docker-compose -f docker-compose.prod.yml up --build
       - name: Run HawkScan
         uses: stackhawk/hawkscan-action@v1.2.1
         with:
