@@ -6,6 +6,8 @@ from .models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
+import reportlab
+
 
 # Create your views here.
 @login_required(login_url='login')
@@ -22,11 +24,19 @@ def myfiles(request):
 @login_required(login_url='login')
 @patient_only
 def create_file(request):
-    form = UploadFileForm()
+    form = FileForm()
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
+        form = FileForm(request.POST)
         if form.is_valid():
-            instance = File(file=request.FILES['file'], patient=request.user.patient, name=request.POST['title'], description=request.POST['description'])
+            instance = File( 
+                patient=request.user.patient, 
+                name=form.cleaned_data['name'], 
+                description=form.cleaned_data['description'],
+                comments=form.cleaned_data['comments'],
+                symptoms=form.cleaned_data['symptoms'],
+                diagnosis=form.cleaned_data['diagnosis'],
+                medication=form.cleaned_data['medication'],
+                )
             instance.save()
             return redirect('myfiles')
     context = {'form': form}
@@ -47,12 +57,12 @@ def delete_file(request, pk):
 @patient_only
 def update_file(request, pk):
     file = File.objects.get(id=pk)
-    form = UploadFileForm()
+    form = FileForm(instance=file)
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
+        form = FileForm(request.POST, instance=file)
         if form.is_valid():
-            instance = File(file=request.FILES['file'], patient=request.user.patient, name=request.POST['title'], description=request.POST['description'])
-            instance.save()
+            print("valid")
+            form.save()
             return redirect('myfiles')
     context = {'form': form}
     return render(request, 'fileshare/create_file.html', context)

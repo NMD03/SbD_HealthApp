@@ -19,6 +19,7 @@ class Doctor(models.Model):
 class DoctorPatient(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    approved = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     def __str__(self):
@@ -26,9 +27,12 @@ class DoctorPatient(models.Model):
 
 class File(models.Model):
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=100, default="")
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    file = models.FileField(upload_to='files/')
+    symptoms = models.CharField(max_length=100, default="")
+    diagnosis = models.CharField(max_length=100, default="")
+    medication = models.CharField(max_length=100, default="")
+    comments = models.CharField(max_length=100, default="")
     shared = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -45,21 +49,14 @@ class File(models.Model):
 #     def __str__(self):
 #         return self.file.name
 
-# class FileShareRequest(models.Model):
-#     file = models.ForeignKey(File, on_delete=models.CASCADE)
-#     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-#     created = models.DateTimeField(auto_now_add=True)
-#     updated = models.DateTimeField(auto_now=True)
-#     def __str__(self):
-#         return self.file.name
-
-class FileData(models.Model):
+class FileShareRequest(models.Model):
     file = models.ForeignKey(File, on_delete=models.CASCADE)
-    data = models.BinaryField()
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.file.name
+
 
 class DoctorFile(models.Model):
     file = models.ForeignKey(File, on_delete=models.CASCADE)

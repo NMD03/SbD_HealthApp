@@ -18,8 +18,10 @@
     <div class="card"  id="">
         <div class="card-body">
           <h5 class="card-title">{{i.name}}</h5>
-          <p class="card-text">Description: {{i.description}}</p>
-          <p class="card-text">File: {{i.file}}</p>
+          <!-- <p class="card-text">Symptoms: {{i.symptoms}}</p>
+          <p class="card-text">Diagnosis: {{i.diagnosis}}</p>
+          <p class="card-text">Medication: {{i.medication}}</p>
+          <p class="card-text">Comments: {{i.comments}}</p> -->
           <a href="{% url 'update_file' i.id %}" class="btn btn-primary">Change</a>
           <a href="{% url 'delete_file' i.id %}" class="btn btn-primary">Delete</a>
           <a href="{% url 'download_file' i.id %}" class="btn btn-primary">Download</a>
