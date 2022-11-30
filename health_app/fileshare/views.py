@@ -26,17 +26,9 @@ def myfiles(request):
 def create_file(request):
     form = FileForm()
     if request.method == 'POST':
-        form = FileForm(request.POST)
+        form = FileForm(request.POST, request.FILES)
         if form.is_valid():
-            instance = File( 
-                patient=request.user.patient, 
-                name=form.cleaned_data['name'], 
-                description=form.cleaned_data['description'],
-                comments=form.cleaned_data['comments'],
-                symptoms=form.cleaned_data['symptoms'],
-                diagnosis=form.cleaned_data['diagnosis'],
-                medication=form.cleaned_data['medication'],
-                )
+            instance = File(file=request.FILES['file'], patient=request.user.patient, name=request.POST['name'], description=request.POST['description'])
             instance.save()
             return redirect('myfiles')
     context = {'form': form}

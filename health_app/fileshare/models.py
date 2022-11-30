@@ -29,25 +29,13 @@ class File(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100, default="")
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    symptoms = models.CharField(max_length=100, default="")
-    diagnosis = models.CharField(max_length=100, default="")
-    medication = models.CharField(max_length=100, default="")
-    comments = models.CharField(max_length=100, default="")
+    file = models.FileField(upload_to='files/', null=True, blank=True)
     shared = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.name
 
-# class FileShare(models.Model):
-#     file = models.ForeignKey(File, on_delete=models.CASCADE)
-#     # patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-#     # doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-#     doctor_patient = models.ForeignKey(DoctorPatient, on_delete=models.CASCADE)
-#     created = models.DateTimeField(auto_now_add=True)
-#     updated = models.DateTimeField(auto_now=True)
-#     def __str__(self):
-#         return self.file.name
 
 class FileShareRequest(models.Model):
     file = models.ForeignKey(File, on_delete=models.CASCADE)
@@ -70,9 +58,14 @@ class DoctorLicense(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     license = models.FileField(upload_to='licenses/')
+    approved = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.doctor.user.username + ' - ' + self.title
 
-
+class DoctorLicenseRequest(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    license = models.ForeignKey(DoctorLicense, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)

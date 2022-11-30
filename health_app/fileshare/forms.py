@@ -5,15 +5,13 @@ from .models import *
 
 class FileForm(ModelForm):
 
+    name = forms.CharField(max_length=100, required=True)
     description = forms.CharField(max_length=300, required=False)
-    symptoms = forms.CharField(max_length=300, required=False)
-    diagnosis = forms.CharField(max_length=300, required=False)
-    medication = forms.CharField(max_length=300, required=False)
-    comments = forms.CharField(max_length=300, required=False)
+    file = forms.FileField(required=True)
 
     class Meta:
         model = File
-        fields = ('name', 'description', 'symptoms', 'diagnosis', 'medication', 'comments')
+        fields = ('name', 'description', 'file')
 
 
 class UploadLicenseForm(forms.Form):
