@@ -149,3 +149,8 @@ def add_doctor(request, pk):
         return redirect('myfiles')
     context = {"form": form, "file": file}
     return render(request, 'fileshare/add_doctor.html', context)
+
+def patient_data(request):
+    files = DoctorFile.objects.filter(doctor=request.user.doctor)
+    context = {"files": files}
+    return render(request, 'fileshare/patient_data.html', context)
