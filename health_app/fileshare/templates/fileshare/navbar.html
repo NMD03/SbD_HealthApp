@@ -42,7 +42,7 @@
             
             {% if user|has_group:"doctor" %}
               <li class="nav-item">
-                <a class="nav-link"  href="{% url 'login' %}">Patient Data</a>
+                <a class="nav-link"  href="{% url 'patient_data' %}">Patient Data</a>
               </li>
             {% endif %}
             
