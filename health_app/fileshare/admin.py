@@ -11,3 +11,4 @@ admin.site.register(File)
 #admin.site.register(FileData)
 admin.site.register(DoctorFile)
 admin.site.register(DoctorLicense)
+

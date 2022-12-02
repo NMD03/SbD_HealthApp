@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('fileshare.urls')),
     path('users/', include('users.urls')),
     path('verification/', include('verify_email.urls')),
+    path('licensing/', include('licensing.urls')),
 ]
