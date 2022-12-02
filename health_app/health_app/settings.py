@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import base64
 from pathlib import Path
 import environ
 import os
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'users',
     "verify_email.apps.VerifyEmailConfig",
     'crispy_forms',
+    'encrypted_files',
+    'licensing',
 ]
 
 MIDDLEWARE = [
@@ -218,3 +221,17 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+AES_KEY = base64.b64decode(env('AES_KEY')) # 32 bytes
+
+FILE_UPLOAD_HANDLERS = [
+    "encrypted_files.uploadhandler.EncryptedFileUploadHandler",
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler"
+]
+
+ALLOWED_EXTENSIONS = [
+    "pdf",
+]
+
+MAX_FILE_SIZE = 10 * 1024 * 1024 # 10 MB

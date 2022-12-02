@@ -9,7 +9,7 @@
     <p>Are you sure you want delete "{{ item }}"?</p>
     <form action="{% url page item.id %}" method="POST">
         {% csrf_token %}
-        <a href="{% url 'myfiles' %}">Cancel</a>
+        <a href="{% url 'login' %}">Cancel</a>
         <input type="submit" name="Confirm">
     </form>
 </body>
