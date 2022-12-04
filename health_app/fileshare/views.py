@@ -178,3 +178,8 @@ def patient_data(request):
     files = DoctorFile.objects.filter(doctor=request.user.doctor)
     context = {"files": files}
     return render(request, 'fileshare/patient_data.html', context)
+
+def get_patient_requests(request):
+    patient_requests = DoctorPatient.objects.filter(approved=False)
+    context = {'patient_requests': patient_requests}
+    return render(request, 'fileshare/get_patient_requests.html', context)

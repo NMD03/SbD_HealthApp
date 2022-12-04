@@ -16,5 +16,6 @@ urlpatterns = [
     path('request_doctor/<str:pk>/', views.request_doctor, name='request_doctor'),
     path('my_doctors/', views.my_doctors, name='my_doctors'),
     path('shared_files/', views.shared_files, name='shared_files'),
-    path('patient_data/', views.patient_data, name='patient_data')
+    path('patient_data/', views.patient_data, name='patient_data'),
+    path('get_patient_requests/', views.get_patient_requests, name='get_patient_requests')
 ]

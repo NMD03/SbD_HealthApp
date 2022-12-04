@@ -1,0 +1,32 @@
+{% extends "fileshare/base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'fileshare/file.css' %}">
+</head>
+<body>
+    <h1>List of all Requests</h1>
+    {% for i in patient_requests %}
+    <div class="card"  id="">
+        <div class="card-body">
+          <h5 class="card-title">{{i.patient.user.username}}</h5>
+          <!-- <p>License: {{i.title}}</p> -->
+          <!-- <a href="{% url 'download_license' i.id %}" class="btn btn-primary">Download</a>
+          <a href="{% url 'add_doctor' i.id %}" class="btn btn-primary">Inspect</a> -->
+          <a href="{% url 'approve_license' i.id %}" class="btn btn-primary">Approve</a>
+          <a href="{% url 'deny_license' i.id %}" class="btn btn-primary">Deny</a>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+</html>   
+{% endblock %}
