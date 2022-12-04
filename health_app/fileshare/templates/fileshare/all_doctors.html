@@ -1,5 +1,6 @@
 {% extends "fileshare/base.html" %}
 {% block content %}
+{% load filter %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +20,9 @@
     <div class="card"  id="">
         <div class="card-body">
           <h5 class="card-title">{{i.user.username}}</h5>
-          <a href="{% url 'request_doctor' i.id %}" class="btn btn-primary" style="float:right;">Request</a>
+            {% if user|has_group:"patient" %}
+                <a href="{% url 'request_doctor' i.id %}" class="btn btn-primary" style="float:right;">Request</a>
+            {% endif %}
           <p>E-mail: {{i.user.email}}</p>
         </div>
     </div>

@@ -19,7 +19,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">Logout</a>
             </li>
-  
+            {% if user|has_group:"patient"%}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Files
@@ -29,7 +29,6 @@
                 <li><a class="dropdown-item" href="{% url 'shared_files' %}">Shared Files</a></li>
               </ul>
             </li>
-
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Doctors
@@ -39,6 +38,7 @@
                 <li><a class="dropdown-item" href="{% url 'my_doctors' %}">My Doctors</a></li>
               </ul>
             </li>
+            {% endif %}
             
             {% if user|has_group:"doctor" %}
               <li class="nav-item">
@@ -47,6 +47,9 @@
             {% endif %}
             
             {% if user.is_superuser %}
+              <li class="nav-item">
+                <a class="nav-link"  href="{% url 'all_doctors' %}">All Doctors</a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link"  href="{% url 'get_doctor_requests' %}">Doctor Requests</a>
               </li>
