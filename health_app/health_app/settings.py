@@ -101,6 +101,9 @@ DATABASES = {
         "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
         "HOST": os.environ.get("SQL_HOST", "localhost"),
         "PORT": os.environ.get("SQL_PORT", "5432"),
+        "OPTIONS": {
+            "sslmode": "prefer",
+        },
     }
 }
 
@@ -204,16 +207,24 @@ LOGGING = {
 }
 
 # E-Mail Settings
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = env('EMAIL_HOST')
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # Custom Email Settings
 #  RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+
 
 LOGIN_URL = 'login'
 
@@ -222,7 +233,9 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-AES_KEY = base64.b64decode(env('AES_KEY')) # 32 bytes
+# AES_KEY = base64.b64decode(env('AES_KEY')) # 32 bytes
+AES_KEY = base64.b64decode(os.environ.get('AES_KEY'))  # 32 bytes
+
 
 FILE_UPLOAD_HANDLERS = [
     "encrypted_files.uploadhandler.EncryptedFileUploadHandler",
@@ -234,4 +247,4 @@ ALLOWED_EXTENSIONS = [
     "pdf",
 ]
 
-MAX_FILE_SIZE = 10 * 1024 * 1024 # 10 MB
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
