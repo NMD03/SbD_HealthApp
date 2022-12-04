@@ -68,13 +68,15 @@ def update_file(request, pk):
     context = {'form': form}
     return render(request, 'fileshare/create_file.html', context)
 
-
+@login_required(login_url='login')
+@patient_only
 def download_file(request, pk):
     file = File.objects.get(id=pk)
     data = file.file
     return FileResponse(EncryptedFile(data), as_attachment=True, filename=file.name + '.' + file.file.name.split('.')[-1])
 
-
+@login_required(login_url='login')
+@patient_only
 def profile(request):
     user = request.user
     # try:
@@ -112,6 +114,8 @@ def profile(request):
     context = {"user": user, "license": license, "form": form}
     return render(request, 'fileshare/profile.html', context)
 
+@login_required(login_url='login')
+@patient_only
 def delete_license(request, pk):
     license = DoctorLicense.objects.get(id=pk)
     page = 'delete_license'
@@ -126,11 +130,15 @@ def delete_license(request, pk):
     context = {'item': license, 'page': page}
     return render(request, 'fileshare/delete.html', context)
 
+@login_required(login_url='login')
+@patient_only
 def all_doctors(request):
     doctors = Doctor.objects.all()
     context = {"doctors": doctors}
     return render(request, 'fileshare/all_doctors.html', context)
 
+@login_required(login_url='login')
+@patient_only
 def request_doctor(request, pk):
     doctor = Doctor.objects.get(id=pk)
     form = RequestDoctorForm()
@@ -144,6 +152,8 @@ def request_doctor(request, pk):
     context = {"form": form, "doctor": doctor}
     return render(request, 'fileshare/request_doctor.html', context)
 
+@login_required(login_url='login')
+@patient_only
 def my_doctors(request):
     doctor_patient = request.user.patient.doctorpatient_set.all()
     doctors = []
@@ -152,12 +162,16 @@ def my_doctors(request):
     context = {"doctors": doctors}
     return render(request, 'fileshare/my_doctors.html', context)
 
+@login_required(login_url='login')
+@patient_only
 def shared_files(request):
     files = File.objects.filter(patient=request.user.patient, shared=True)
     print(files)
     context = {"files": files}
     return render(request, 'fileshare/shared_files.html', context)
 
+@login_required(login_url='login')
+@patient_only
 def add_doctor(request, pk):
     file = File.objects.get(id=pk)
     form = AddDoctorForm(request=request)
@@ -174,6 +188,8 @@ def add_doctor(request, pk):
     context = {"form": form, "file": file}
     return render(request, 'fileshare/add_doctor.html', context)
 
+@login_required(login_url='login')
+@doctor_only
 def patient_data(request):
     files = DoctorFile.objects.filter(doctor=request.user.doctor)
     context = {"files": files}
