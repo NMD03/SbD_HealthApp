@@ -22,8 +22,8 @@
           <!-- <p>License: {{i.title}}</p> -->
           <!-- <a href="{% url 'download_license' i.id %}" class="btn btn-primary">Download</a>
           <a href="{% url 'add_doctor' i.id %}" class="btn btn-primary">Inspect</a> -->
-          <a href="{% url 'approve_license' i.id %}" class="btn btn-primary">Approve</a>
-          <a href="{% url 'deny_license' i.id %}" class="btn btn-primary">Deny</a>
+          <a href="{% url 'approve_patient' i.id %}" class="btn btn-primary">Approve</a>
+          <a href="{% url 'deny_patient' i.id %}" class="btn btn-primary">Deny</a>
         </div>
     </div>
     {% endfor %}
