@@ -194,3 +194,42 @@ def patient_data(request):
     files = DoctorFile.objects.filter(doctor=request.user.doctor)
     context = {"files": files}
     return render(request, 'fileshare/patient_data.html', context)
+
+def get_patient_requests(request):
+    patient_requests = DoctorPatient.objects.filter(approved=False)
+    context = {'patient_requests': patient_requests}
+    return render(request, 'fileshare/get_patient_requests.html', context)
+
+def approve_patient(request, pk):
+    docpatient = DoctorPatient.objects.get(id=pk)
+    page ='approve_patient'
+    user = docpatient.doctor.user
+    if request.method == 'POST':
+        docpatient.approved = True
+        docpatient.save()
+        try:
+            doctor = user.doctor
+        except:
+            DoctorPatient.objects.create(
+                user=user
+            )
+            # group = Group.objects.get(name='doctor')
+            # user.groups.add(group)
+        return redirect('get_patient_requests')
+    context = {'item': docpatient, 'page': page}
+    return render(request, 'fileshare/approve_patient.html', context)
+
+def deny_patient(request, pk):
+    docpatient = DoctorPatient.objects.get(id=pk)
+    page ='deny_patient'
+    if request.method == 'POST':
+        docpatient.delete()
+        return redirect('get_patient_requests')
+    context = {'item': docpatient, 'page': page}
+    return render(request, 'fileshare/deny_patient.html', context)
+
+def download_file(request, pk):
+    file = File.objects.get(id=pk)
+    data = file.file
+    return FileResponse(EncryptedFile(data), as_attachment=True, filename=file.name + '.' + file.file.name.split('.')[-1])
+

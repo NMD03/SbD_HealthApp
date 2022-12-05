@@ -1,0 +1,17 @@
+{% extends 'fileshare/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+</head>
+<body>
+    <p>Are you sure you want to approve "{{ item }}"?</p>
+    <form action="{% url page item.id %}" method="POST">
+        {% csrf_token %}
+        <a href="{% url 'get_patient_requests' %}">Cancel</a>
+        <input type="submit" name="Confirm">
+    </form>
+</body>
+</html>
+{% endblock %}
