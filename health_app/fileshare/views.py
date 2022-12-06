@@ -77,12 +77,10 @@ def download_file(request, pk):
     return FileResponse(EncryptedFile(data), as_attachment=True, filename=file.name + '.' + file.file.name.split('.')[-1])
 
 @login_required(login_url='login')
-@patient_only
+#@patient_only
 def profile(request):
     user = request.user
-
-    license = DoctorLicense.objects.filter(doctor=user.patient, approved=True)
-        
+    license = DoctorLicense.objects.filter(doctor=user.patient, approved=True)  
     form = UploadLicenseForm()
     if request.method == 'POST':
         form = UploadLicenseForm(request.POST, request.FILES)
