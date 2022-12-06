@@ -29,7 +29,7 @@ class AddDoctorForm(forms.Form):
         self.fields['doctor'].choices = self.get_doctors()
 
     def get_doctors(self):
-        doctor_patient = self.request.user.patient.doctorpatient_set.all()
+        doctor_patient = DoctorPatient.objects.filter(patient = self.request.user.patient)
         doctors = []
         for dp in doctor_patient:
             doctors.append(Doctor.objects.get(id=dp.doctor.id))

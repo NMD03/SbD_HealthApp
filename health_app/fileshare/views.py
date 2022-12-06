@@ -49,6 +49,7 @@ def delete_file(request, pk):
     file = File.objects.get(id=pk)
     page = 'delete_file'
     if request.method == 'POST':
+        file.file.delete()
         file.delete()
         return redirect('myfiles')
     context = {'item': file, 'page': page}
@@ -79,11 +80,6 @@ def download_file(request, pk):
 @patient_only
 def profile(request):
     user = request.user
-    # try:
-    #     license = user.doctor.doctorlicense_set.all()
-    #     print('license')
-    # except:
-    #     license = None
 
     license = DoctorLicense.objects.filter(doctor=user.patient, approved=True)
         
@@ -93,14 +89,6 @@ def profile(request):
         if form.is_valid():
             extension = request.FILES.get('file', None).name.split('.')[-1]
             if extension in settings.ALLOWED_EXTENSIONS and request.FILES['file'].size < settings.MAX_FILE_SIZE:
-                # try:
-                #     doctor = user.doctor
-                # except:
-                #     Doctor.objects.create(
-                #         user=user,
-                #     )
-                    # group = Group.objects.get(name='doctor')
-                    # user.groups.add(group)
                 try:
                     instance = DoctorLicense(doctor=user.patient, license=request.FILES['file'], title=request.POST['title'], approved=False)
                     instance.save()
@@ -121,8 +109,10 @@ def delete_license(request, pk):
     page = 'delete_license'
     user = request.user
     if request.method == 'POST':
+        license.license.delete()
         license.delete()
-        if len(user.doctor.doctorlicense_set.all()) < 1:
+        key = user.patient
+        if len(DoctorLicense.objects.filter(doctor = key)) < 1:
             user.doctor.delete()
             group = Group.objects.get(name='doctor')
             user.groups.remove(group)
@@ -146,16 +136,21 @@ def request_doctor(request, pk):
         form = RequestDoctorForm(request.POST)
         ### send request to doctor
         if form.is_valid():
-            instance = DoctorPatient(doctor=doctor, patient=request.user.patient)
-            instance.save()
-            return redirect('all_doctors')
+            if DoctorPatient.objects.filter(doctor=doctor, patient=request.user.patient) != None:
+                print(DoctorPatient.objects.filter(doctor=doctor, patient=request.user.patient))
+                instance = DoctorPatient(doctor=doctor, patient=request.user.patient, approved=False)
+                instance.save()
+                return redirect('all_doctors')
+            else:
+                messages.error(request, 'Already sent request')
+                return redirect('all_doctors')
     context = {"form": form, "doctor": doctor}
     return render(request, 'fileshare/request_doctor.html', context)
 
 @login_required(login_url='login')
 @patient_only
 def my_doctors(request):
-    doctor_patient = request.user.patient.doctorpatient_set.all()
+    doctor_patient = DoctorPatient.objects.filter(patient=request.user.patient, approved=True)
     doctors = []
     for doctor in doctor_patient:
         doctors.append(doctor.doctor)
@@ -189,7 +184,7 @@ def add_doctor(request, pk):
     return render(request, 'fileshare/add_doctor.html', context)
 
 @login_required(login_url='login')
-@doctor_only
+@patient_only
 def patient_data(request):
     files = DoctorFile.objects.filter(doctor=request.user.doctor)
     context = {"files": files}
@@ -213,8 +208,6 @@ def approve_patient(request, pk):
             DoctorPatient.objects.create(
                 user=user
             )
-            # group = Group.objects.get(name='doctor')
-            # user.groups.add(group)
         return redirect('get_patient_requests')
     context = {'item': docpatient, 'page': page}
     return render(request, 'fileshare/approve_patient.html', context)
