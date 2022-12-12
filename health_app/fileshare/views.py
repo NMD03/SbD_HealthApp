@@ -135,7 +135,6 @@ def request_doctor(request, pk):
         ### send request to doctor
         if form.is_valid():
             if DoctorPatient.objects.filter(doctor=doctor, patient=request.user.patient) != None:
-                print(DoctorPatient.objects.filter(doctor=doctor, patient=request.user.patient))
                 instance = DoctorPatient(doctor=doctor, patient=request.user.patient, approved=False)
                 instance.save()
                 return redirect('all_doctors')
@@ -159,7 +158,6 @@ def my_doctors(request):
 @patient_only
 def shared_files(request):
     files = File.objects.filter(patient=request.user.patient, shared=True)
-    print(files)
     context = {"files": files}
     return render(request, 'fileshare/shared_files.html', context)
 
