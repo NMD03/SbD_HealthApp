@@ -120,7 +120,6 @@ class RouteTestCase(TestCase):
             user.save()
             self.assertTrue(User.objects.filter(email=email).exists())
             self.users.append(user)
-            # self.client = Client()
             self.client.login(password=password, username=username)
             self.factory = RequestFactory()
     #Test_ID 7

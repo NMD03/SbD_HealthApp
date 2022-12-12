@@ -9,6 +9,7 @@
 Repository for the SbD Health App
 
 ## Table of Contents <!-- omit in toc -->
+- [Documentation](#documentation)
 - [Starting App in Development Mode](#starting-app-in-development-mode)
 	- [Create .env.dev file](#create-envdev-file)
 	- [Build and start Docker Container](#build-and-start-docker-container)
@@ -26,6 +27,9 @@ Repository for the SbD Health App
 	- [Use App](#use-app-1)
 	- [Stop Docker Container](#stop-docker-container-1)
 
+
+## Documentation
+You can find the full documentation required for the project submission [here](./Documentation.md)
 
 ## Starting App in Development Mode
 Before starting the app in development mode, make sure you have installed Docker and Docker Compose on your machine. If you haven't, you can find the installation instructions [here](https://docs.docker.com/compose/install/).
