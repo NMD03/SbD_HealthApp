@@ -1,4 +1,5 @@
 import base64
+import io
 from django.test import Client, RequestFactory, TestCase, TransactionTestCase
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.urls import reverse
@@ -9,6 +10,8 @@ from io import StringIO
 import uuid
 from django.contrib.auth.models import Group
 from fileshare.views import *
+from reportlab.pdfgen import canvas
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 # Create your tests here.
 
@@ -171,7 +174,7 @@ class RouteTestCase(TestCase):
             self.assertTrue(user.groups.filter(name='patient').exists())
             request = self.factory.get('/myfiles/')
             request.user = user
-            response = profile(request)
+            response = myfiles(request)
             self.assertEqual(response.status_code, 200)
     #Test_ID 12
     def test_get_sharedfiles_view_without_patient(self):
@@ -194,7 +197,7 @@ class RouteTestCase(TestCase):
             self.assertTrue(user.groups.filter(name='patient').exists())
             request = self.factory.get('/shared_files/')
             request.user = user
-            response = profile(request)
+            response = shared_files(request)
             self.assertEqual(response.status_code, 200)
     #Test_ID 14
     def test_get_alldoctors_view_without_patient(self):
@@ -217,7 +220,7 @@ class RouteTestCase(TestCase):
             self.assertTrue(user.groups.filter(name='patient').exists())
             request = self.factory.get('/all_doctors/')
             request.user = user
-            response = profile(request)
+            response = all_doctors(request)
             self.assertEqual(response.status_code, 200)
     #Test_ID 16
     def test_get_mydoctors_view_without_patient(self):
@@ -240,7 +243,7 @@ class RouteTestCase(TestCase):
             self.assertTrue(user.groups.filter(name='patient').exists())
             request = self.factory.get('/my_doctors/')
             request.user = user
-            response = profile(request)
+            response = my_doctors(request)
             self.assertEqual(response.status_code, 200)
     #Test_ID 18
     def test_get_patientdata_view_without_doctor(self):
@@ -261,23 +264,6 @@ class RouteTestCase(TestCase):
             except:
                 self.assertFalse(False)
 
-def get_temporary_text_file():
-    io = StringIO
-    io.write('foo')
-    text_file = InMemoryUploadedFile(io, None, 'foo.txt', 'text', io.len, None)
-    text_file.seek(0)
-    return text_file
-
-# def get_temporary_pdf():
-#     io = StringIO.StringIO()
-#     size = (200,200)
-#     color = (255,0,0,0)
-#     image = Image.new("RGBA", size, color)
-#     image.save(io, format='JPEG')
-#     image_file = InMemoryUploadedFile(io, None, 'foo.jpg', 'jpeg', io.len, None)
-#     image_file.seek(0)
-#     return image_file
-
 class FileTestCase(TestCase):
     def setUp(self):
         self.credentials = [(uuid.uuid4().hex + '@mail.com', uuid.uuid4().hex, uuid.uuid4().hex) for _ in range(10)]
@@ -292,29 +278,17 @@ class FileTestCase(TestCase):
             self.client.login(password=password, username=username)
             self.factory = RequestFactory()
 
-    # def test_if_form_submits(self):
-    #     test_image = get_temporary_image()
-    #     response = self.client.post(reverse('create_file'), {'form': test_image})
-    #     self.assertEqual(302, response.status_code)
+    def test_file_upload_successfully_on_text_file(self):
+         for user in self.users:
+            # patient = Patient.objects.create(user = user)
+            # self.assertTrue(user.patient)
+            # new_group, created = Group.objects.get_or_create(name='patient')
+            # group = Group.objects.get(name='patient')
+            # user.groups.add(group)
+            # self.assertTrue(user.groups.filter(name='patient').exists())
+            test_file = SimpleUploadedFile("file.txt", b"file_content", content_type="text/txt")
+            request = self.factory.post('/create_file/', {'name':'sdfd',"description":"descrr", "form": test_file})
+            request.user = user
+            response = create_file(request)
+            self.assertEqual(response.status_code, 302)
 
-    def test_if_form_fails_on_text_file(self):
-        test_file = get_temporary_text_file()
-        response = self.client.post(reverse('create_file'), {'form': test_file})
-        self.assertEqual(200, response.status_code)
-        error_message = 'Upload a valid image. The file you uploaded was either not an image or a corrupted image.'
-        self.assertFormError(response, 'form', 'text', error_message)
-
-    # def test_file_upload(self):
-    #     """Test File Upload and Download"""
-    #     for user in self.users:
-    #         file = SimpleUploadedFile("file.pdf",b"file_content",content_type="file/pdf")
-
-    #         self.client.post(reverse('app:'))
- 
-    # def test_file_upload(self):
-    #     file = SimpleUploadedFile("file.txt", b"abc", content_type="text/plain")
-    #     payload = {"file": file}
-    #     response = self.client.post("/create_file", payload, format="multipart")
-    #     self.assertEqual(response.status_code, 201)
-    #     # If you do more calls in this method with the same file then seek to zero
-    #     file.seek(0)
