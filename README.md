@@ -48,6 +48,12 @@ SQL_PASSWORD= # your database password
 SQL_HOST= # your database host
 SQL_PORT= # your database port
 DATABASE= # your database 
+EMAIL_HOST= # your email host
+EMAIL_HOST_USER= # your email host user
+EMAIL_HOST_PASSWORD= # your email host password
+RECIPIENT_ADDRESS= # TheRecieverOfTheMails
+DEFAULT_FROM_EMAIL= # default from email
+AES_KEY= # your aes key
 ```
 ### Build and start Docker Container
 Open terminal in root directory of the project and run the following command:
@@ -91,6 +97,12 @@ SQL_PASSWORD= # your sql password
 SQL_HOST= # your sql host
 SQL_PORT= # your sql port
 DATABASE= # your database
+EMAIL_HOST= # your email host
+EMAIL_HOST_USER= # your email host user
+EMAIL_HOST_PASSWORD= # your email host password
+RECIPIENT_ADDRESS=# TheRecieverOfTheMails
+DEFAULT_FROM_EMAIL= # default from email
+AES_KEY= # your aes key 
 ```
 Create a file called `.env.prod.db` in the root directory of the project. The file should contain the following environment variables:
 
@@ -98,6 +110,13 @@ Create a file called `.env.prod.db` in the root directory of the project. The fi
 POSTGRES_DB= # your postgres db
 POSTGRES_USER= # your postgres user
 POSTGRES_PASSWORD= # your postgres password
+```
+Create a file called `.env.prod.proxy-companion` in the root directory of the project. The file should contain the following environment variables:
+
+```bash
+ACME_CA_URI= # your acme ca uri
+LETSENCRYPT_HOST= # your letsencrypt host
+LETSENCRYPT_EMAIL= # your letsencrypt email
 ```
 ### Build and Start Docker Container
 Open terminal in root directory of the project and run the following command:
