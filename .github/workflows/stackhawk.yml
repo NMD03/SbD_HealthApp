@@ -25,11 +25,11 @@ jobs:
           echo "${{ secrets.ENV_PROD_FILE }}" > .env.prod
           echo "${{ secrets.ENV_PROD_DB_FILE }}" > .env.prod.db
       - name: Run the Vuln Django Containers
-        run: docker-compose -f docker-compose.prod.yml up --build
+        run: docker-compose  up --build
       - name: Migrate Database
-        run: docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
+        run: docker-compose exec web python manage.py migrate --noinput
       - name: Load Static Files
-        run: docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear
+        run: docker-compose exec web python manage.py collectstatic --no-input --clear
       - name: Run HawkScan
         uses: stackhawk/hawkscan-action@v1.2.1
         with:
