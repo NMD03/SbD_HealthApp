@@ -27,14 +27,32 @@ Gunicorn ist ein Python-WSGI-HTTP-Server für UNIX. Der Gunicorn-Server ist weit
 ### Nginx
 Nginx (Engine X) ist ein Open-Source-Webserver, der für die Verarbeitung von HTTP-Anfragen und die Bereitstellung von Inhalten konzipiert ist. Nginx ist ein beliebter Webserver, der für seine hohe Geschwindigkeit und seine Fähigkeit bekannt ist, große Anfragen zu verarbeiten. Nginx ist ein beliebter Webserver, der für seine hohe Geschwindigkeit und seine Fähigkeit bekannt ist, große Anfragen zu verarbeiten.
 ### Docker
-Docker ist eine Software, die es Entwicklern ermöglicht, Anwendungen in isolierten Umgebungen zu erstellen, zu testen und zu bereitstellen. Docker ist eine Software, die es Entwicklern ermöglicht, Anwendungen in isolierten Umgebungen zu erstellen, zu testen und zu bereitstellen.
+Docker ist eine Software, die es Entwicklern ermöglicht, Anwendungen in isolierten Umgebungen zu erstellen, zu testen und zu bereitstellen.
 ### PostgreSQL
-PostgreSQL ist ein objektrelationales Datenbankmanagementsystem (ORDBMS) mit dem Fokus auf Standardskonformität und Erweiterbarkeit. PostgreSQL ist ein objektrelationales Datenbankmanagementsystem (ORDBMS) mit dem Fokus auf Standardskonformität und Erweiterbarkeit.
+PostgreSQL ist ein objektrelationales Datenbankmanagementsystem (ORDBMS) mit dem Fokus auf Standardskonformität und Erweiterbarkeit.
 ## Architektur
 
 ## Schutzobjekte und Schutzziele
 
 ## Risikoregister
+
+![Alt text](./img/R1.png)
+![Alt text](/img/R2.png)
+![Alt text](/img/R3.png)
+![Alt text](/img/R4.png)
+![Alt text](/img/R5.png)
+![Alt text](/img/R6.png)
+![Alt text](/img/R7.png)
+![Alt text](/img/R8.png)
+![Alt text](/img/R9.png)
+![Alt text](/img/R10.png)
+![Alt text](/img/R11.png)
+![Alt text](/img/R12.png)
+![Alt text](/img/R13.png)
+![Alt text](/img/R14.png)
+![Alt text](/img/R15.png)
+![Alt text](/img/R16.png)
+
 
 ## Implementierung
 ### User Registrierung
