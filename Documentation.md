@@ -11,6 +11,9 @@
 - [Schutzobjekte und Schutzziele](#schutzobjekte-und-schutzziele)
 - [Risikoregister](#risikoregister)
 - [Implementierung](#implementierung)
+  - [User Registrierung](#user-registrierung)
+    - [E-Mail Bestätigung](#e-mail-bestätigung)
+  - [User Login](#user-login)
 - [Testplan](#testplan)
 - [Testergebnisse](#testergebnisse)
 
@@ -28,8 +31,12 @@
 ## Risikoregister
 
 ## Implementierung
+### User Registrierung
+#### E-Mail Bestätigung
+### User Login
 
 ## Testplan
 
 ## Testergebnisse
+
 https://app.fossa.com/attribution/e255cdb3-2448-49e1-89d8-503bb1d49d38

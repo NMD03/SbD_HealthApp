@@ -25,7 +25,7 @@ jobs:
           echo "${{ secrets.ENV_PROD_FILE }}" > .env.prod
           echo "${{ secrets.ENV_PROD_DB_FILE }}" > .env.prod.db
       - name: Run the Vuln Django Containers
-        run: docker-compose  up --build
+        run: docker-compose up --build
       - name: Migrate Database
         run: docker-compose exec web python manage.py migrate --noinput
       - name: Load Static Files
